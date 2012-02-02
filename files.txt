@@ -1,0 +1,16 @@
+top.v
+dlx_partitioned.v
+dlx_modules.v
+zero_compare.v
+shifter.v
+regfile2r.v
+addhsv.v
+buff.v
+mux2.v
+mux3.v
+mux4.v
+dff_cq.v
+alu.v
+dff_generic.v
+adder_generic.v
+alu_generic.v

@@ -14,7 +14,7 @@ module alu_generic(a,b,cin,m,s,cout,out,overflow);
   reg  cout;
   reg [(n - 1):0] out;
   reg  overflow;
-  reg [(n - 1):0] logic;
+  reg [(n - 1):0] logic_;
   reg [(n - 1):0] pr;
   reg [(n - 1):0] pr1;
   reg [n:0] arith;
@@ -27,7 +27,7 @@ module alu_generic(a,b,cin,m,s,cout,out,overflow);
       cinbar = ( ~ cin);
       if((s == 4'd0))
         begin
-        logic = ( ~ a);
+        logic_ = ( ~ a);
         aa = ( ~ 128'b0);
         aa[n] = 1'b0;
         arith = ({1'b0,a} + aa);
@@ -38,7 +38,7 @@ module alu_generic(a,b,cin,m,s,cout,out,overflow);
         end
       else      if((s == 4'd1))
         begin
-        logic = ( ~ (a & b));
+        logic_ = ( ~ (a & b));
         pr = (a & b);
         aa = ( ~ 128'b0);
         aa[n] = 1'b0;
@@ -50,8 +50,8 @@ module alu_generic(a,b,cin,m,s,cout,out,overflow);
         end
       else      if((s == 4'd2))
         begin
-        logic = (( ~ a) | b);
-        pr = ( ~ logic);
+        logic_ = (( ~ a) | b);
+        pr = ( ~ logic_);
         aa = ( ~ 128'b0);
         aa[n] = 1'b0;
         arith = ({1'b0,pr} + aa);
@@ -62,12 +62,12 @@ module alu_generic(a,b,cin,m,s,cout,out,overflow);
         end
       else      if((s == 4'd3))
         begin
-        logic = ( ~ 128'b0);
-        arith = ({1'b0,logic} + cin);
+        logic_ = ( ~ 128'b0);
+        arith = ({1'b0,logic_} + cin);
         end
       else      if((s == 4'd4))
         begin
-        logic = ( ~ (a | b));
+        logic_ = ( ~ (a | b));
         pr = (a | ( ~ b));
         arith = (a + ({1'b0,pr} + cin));
         //if(((1'b0 == (pr[(n - 1)] ^ a[(n - 1)])) && (pr[(n - 1)] !== arith[(n - 1)])))
@@ -76,7 +76,7 @@ module alu_generic(a,b,cin,m,s,cout,out,overflow);
         end
       else      if((s == 4'd5))
         begin
-        logic = ( ~ b);
+        logic_ = ( ~ b);
         pr = (a & b);
         pr1 = (a | ( ~ b));
         arith = (pr + ({1'b0,pr1} + cin));
@@ -86,7 +86,7 @@ module alu_generic(a,b,cin,m,s,cout,out,overflow);
         end
       else      if((s == 4'd6))
         begin
-        logic = ( ~ (a ^ b));
+        logic_ = ( ~ (a ^ b));
         pr = (( ~ (b + cinbar)) + 1'b1);
         arith = ({1'b0,a} + pr);
         //if((((a[(n - 1)] ^ b[(n - 1)]) == 1'b1) && (a[(n - 1)] !== arith[(n - 1)])))
@@ -95,14 +95,14 @@ module alu_generic(a,b,cin,m,s,cout,out,overflow);
         end
       else      if((s == 4'd7))
         begin
-        logic = (a | ( ~ b));
-        arith = ({1'b0,logic} + cin);
-        if(((logic[(n - 1)] == 1'b0) && (arith[(n - 1)] == 1'b1)))
+        logic_ = (a | ( ~ b));
+        arith = ({1'b0,logic_} + cin);
+        if(((logic_[(n - 1)] == 1'b0) && (arith[(n - 1)] == 1'b1)))
           overflow = 1'b1;
         end
       else      if((s == 4'd8))
         begin
-        logic = (( ~ a) & b);
+        logic_ = (( ~ a) & b);
         pr = (a | b);
         arith = (a + ({1'b0,pr} + cin));
         //if(((1'b0 == (pr[(n - 1)] ^ a[(n - 1)])) && (pr[(n - 1)] !== arith[(n - 1)])))
@@ -111,7 +111,7 @@ module alu_generic(a,b,cin,m,s,cout,out,overflow);
         end
       else      if((s == 4'd9))
         begin
-        logic = (a ^ b);
+        logic_ = (a ^ b);
         arith = (a + ({1'b0,b} + cin));
         //if(((1'b0 == (a[(n - 1)] ^ b[(n - 1)])) && (a[(n - 1)] !== arith[(n - 1)])))
         if(((1'b0 == (a[(n - 1)] ^ b[(n - 1)])) && (a[(n - 1)] != arith[(n - 1)])))
@@ -119,7 +119,7 @@ module alu_generic(a,b,cin,m,s,cout,out,overflow);
         end
       else      if((s == 4'd10))
         begin
-        logic = b;
+        logic_ = b;
         pr = (a & ( ~ b));
         pr1 = (a | b);
         arith = (pr + ({1'b0,pr1} + cin));
@@ -129,14 +129,14 @@ module alu_generic(a,b,cin,m,s,cout,out,overflow);
         end
       else      if((s == 4'd11))
         begin
-        logic = (a | b);
-        arith = ({1'b0,logic} + cin);
-        if(((logic[(n - 1)] == 1'b0) && (arith[(n - 1)] == 1'b1)))
+        logic_ = (a | b);
+        arith = ({1'b0,logic_} + cin);
+        if(((logic_[(n - 1)] == 1'b0) && (arith[(n - 1)] == 1'b1)))
           overflow = 1'b1;
         end
       else      if((s == 4'd12))
         begin
-        logic = 128'b0;
+        logic_ = 128'b0;
         arith = (a + ({1'b0,a} + cin));
         //if((a[(n - 1)] !== arith[(n - 1)]))
         if((a[(n - 1)] != arith[(n - 1)]))
@@ -144,7 +144,7 @@ module alu_generic(a,b,cin,m,s,cout,out,overflow);
         end
       else      if((s == 4'd13))
         begin
-        logic = (a & ( ~ b));
+        logic_ = (a & ( ~ b));
         pr = (a & b);
         arith = (pr + ({1'b0,a} + cin));
         //if(((1'b0 == (pr[(n - 1)] ^ a[(n - 1)])) && (pr[(n - 1)] !== arith[(n - 1)])))
@@ -153,7 +153,7 @@ module alu_generic(a,b,cin,m,s,cout,out,overflow);
         end
       else      if((s == 4'd14))
         begin
-        logic = (a & b);
+        logic_ = (a & b);
         pr = (a & ( ~ b));
         arith = (pr + ({1'b0,a} + cin));
         //if(((1'b0 == (pr[(n - 1)] ^ a[(n - 1)])) && (pr[(n - 1)] !== arith[(n - 1)])))
@@ -162,20 +162,20 @@ module alu_generic(a,b,cin,m,s,cout,out,overflow);
         end
       else      if((s == 4'd15))
         begin
-        logic = a;
+        logic_ = a;
         arith = ({1'b0,a} + cin);
-        if(((logic[(n - 1)] == 1'b0) && (arith[(n - 1)] == 1'b1)))
+        if(((logic_[(n - 1)] == 1'b0) && (arith[(n - 1)] == 1'b1)))
           overflow = 1'b1;
         end
       else
         begin
-        logic = 128'bX;
+        logic_ = 128'bX;
         arith = 128'bX;
         end
       if((m == 1'b0))
         begin
         cout = 1'b0;
-        out = logic;
+        out = logic_;
         overflow = 1'b0;
         end
       else      if((m == 1'b1))
