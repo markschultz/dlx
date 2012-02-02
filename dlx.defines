@@ -19,7 +19,7 @@
  *************************************************************************
  */
 
-`define TOP_PROJECT	"~/IFS/Private/Project/verilog"
+`define TOP_PROJECT	"~/git/dlx"
 
 `define Data_Start	32'h10000000
 `define Text_Start	32'h00400000

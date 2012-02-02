@@ -1,48 +1,25 @@
-###############################################################################
-#
-# ICARUS VERILOG & GTKWAVE MAKEFILE
-# MADE BY WILLIAM GIBB FOR HACDC
-# williamgibb@gmail.com
-# 
-# USE THE FOLLOWING COMMANDS WITH THIS MAKEFILE
-#	"make check" - compiles your verilog design - good for checking code
-#	"make simulate" - compiles your design+TB & simulates your design
-#	"make display" - compiles, simulates and displays waveforms
-# 
-###############################################################################
-#
-# CHANGE THESE THREE LINES FOR YOUR DESIGN
-#
 #TOOL INPUT
-SRC = sources.txt
-TOP = top
-TESTBENCH = alu_tb.v
-TBOUTPUT = waves.lxt	#THIS NEEDS TO MATCH THE OUTPUT FILE
-			#FROM YOUR TESTBENCH
-###############################################################################
-# BE CAREFUL WHEN CHANGING ITEMS BELOW THIS LINE
-###############################################################################
+SRC = files.txt
+TESTBENCH = clkgen.v
 #TOOLS
 COMPILER = iverilog
 SIMULATOR = vvp
 VIEWER = gtkwave
-#TOOL OPTIONS
-COFLAGS = -v -o
-SFLAGS = -v
-#SOUTPUT = -lxt		#SIMULATOR OUTPUT TYPE
-SOUTPUT = -lxt2
 #TOOL OUTPUT
-COUTPUT = compiler.out			#COMPILER OUTPUT
-###############################################################################
-#MAKE DIRECTIVES
+COUTPUT = compiler.out
+TBOUTPUT = waves.lxt
+CFLAGS = -v
+SFLAGS = -v
+
 check : $(SRC)
-	$(COMPILER) -v -c$(SRC) -s$(TOP) -o$(COUTPUT)
+	$(COMPILER) $(CFLAGS) -o$(COUTPUT) -c$(SRC)
 
-simulate: $(COUTPUT)
-	$(SIMULATOR) $(SFLAGS) $(COUTPUT) $(SOUTPUT)
+simulate : check
+	$(SIMULATOR) $(SFLAGS) $(COUTPUT)
 
-display: simulate
+display : simulate
 	$(VIEWER) $(TBOUTPUT) &
 
+.PHONY : clean
 clean :
-	rm $(COUTPUT) $(TBOUTPUT)
+	-rm -f $(COUTPUT) $(TBOUTPUT)
