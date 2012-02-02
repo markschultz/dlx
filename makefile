@@ -15,7 +15,7 @@ check : $(SRC)
 	$(COMPILER) $(CFLAGS) -o$(COUTPUT) -c$(SRC)
 
 simulate : check
-	$(SIMULATOR) $(SFLAGS) $(COUTPUT)
+	$(SIMULATOR) $(SFLAGS) $(COUTPUT) -lxt2
 
 display : simulate
 	$(VIEWER) $(TBOUTPUT) &
