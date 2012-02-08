@@ -867,6 +867,20 @@ begin
 			Immediate = 2'b10;
 		end
 	endcase
+	if(IR3==IR4==IR5)
+	begin
+		ALUSelect = `DC6;
+		ShiftSelect = `DC5;
+		ALUorShiftMuxSelect = `DC2;
+		DataWriteMuxSelect = 1'b0;
+		DestinationMuxSelect = `DC2;
+		SourceReg = IR3[`RS];
+		TargetReg = `R0;
+		CompareMux1Select = `DC2;
+		CompareMux2Select = `DC2;
+		CompareResultMuxSelect = 2'b10;
+		Immediate = 2'b10;
+	end
 end
 
 always @(IR4[`OP] or IR4[`OPx] or IR4[`RD] or IR4[`RT])

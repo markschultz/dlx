@@ -1,4 +1,3 @@
-top.v
 dlx_partitioned.v
 dlx_modules.v
 zero_compare.v
@@ -14,3 +13,4 @@ alu.v
 dff_generic.v
 adder_generic.v
 alu_generic.v
+system.v

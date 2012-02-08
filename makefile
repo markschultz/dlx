@@ -1,5 +1,6 @@
 #TOOL INPUT
 SRC = files.txt
+TOP = system
 TESTBENCH = clkgen.v
 #TOOLS
 COMPILER = iverilog

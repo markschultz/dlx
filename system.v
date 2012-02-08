@@ -31,7 +31,7 @@ module test;
    initial
       begin
 		clk <= 1'b0;
-	 $readmemb("test1.dat", memory);
+	 $readmemb("test.dat", memory);
 //	 force DLX.RegFile.WE = 0 ;
 //	 for (i = 0; i < 24; i = i+1) 
 //	    begin
